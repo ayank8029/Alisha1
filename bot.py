@@ -17,7 +17,7 @@ from telegram.ext import (
 # ══════════════════════════════════════════════
 BOT_TOKEN      = os.environ.get("8952093616:AAFMzVicjqGnomdEdgFrI9ckyyjpKbAlCns")
 ELEVENLABS_KEY = os.environ.get("sk_df526334ab3d3cb029079cf12c8afba2b5e03ff611dc34be")
-ADMIN_ID       = int(os.environ.get("8009192285"))
+ADMIN_ID       = int(os.environ.get("ADMIN_ID", "0"))
 
 # ══════════════════════════════════════════════
 #  ElevenLabs — TOP 3 Indian Girl Voice IDs
