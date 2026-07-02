@@ -15,9 +15,9 @@ from telegram.ext import (
 # ══════════════════════════════════════════════
 #  ENV VARIABLES  (Railway/Kuberns mein set karna)
 # ══════════════════════════════════════════════
-BOT_TOKEN      = os.environ.get("BOT_TOKEN")
-ELEVENLABS_KEY = os.environ.get("ELEVENLABS_KEY")
-ADMIN_ID       = int(os.environ.get("ADMIN_ID", "0"))
+BOT_TOKEN      = os.environ.get("8952093616:AAFMzVicjqGnomdEdgFrI9ckyyjpKbAlCns")
+ELEVENLABS_KEY = os.environ.get("sk_df526334ab3d3cb029079cf12c8afba2b5e03ff611dc34be")
+ADMIN_ID       = int(os.environ.get("8009192285"))
 
 # ══════════════════════════════════════════════
 #  ElevenLabs — TOP 3 Indian Girl Voice IDs
@@ -29,10 +29,10 @@ ADMIN_ID       = int(os.environ.get("ADMIN_ID", "0"))
 VOICE_ID = "mg9npuuaf8WJphS6E0Rt"
 
 # Option B → Simran (young, friendly, Hindi)
-# VOICE_ID = TRnaQb7q41oL7sV0w6Bu
+# VOICE_ID = "TRnaQb7q41oL7sV0w6Bu"
 
 # Option C → Anushri (natural young Indian)
-# VOICE_ID = n8agU3KLt1Yttvrx1mYA
+# VOICE_ID = "n8agU3KLt1Yttvrx1mYA"
 
 PAID_USERS_FILE = "paid_users.txt"
 
