@@ -5,6 +5,8 @@ import requests
 import speech_recognition as sr
 from pydub import AudioSegment
 from telegram import Update, ReplyKeyboardMarkup
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
 from telegram.ext import (
     Application, CommandHandler,
     MessageHandler, filters, ContextTypes
@@ -13,8 +15,8 @@ from telegram.ext import (
 # ══════════════════════════════════════════════
 #  ENV VARIABLES  (Railway/Kuberns mein set karna)
 # ══════════════════════════════════════════════
-BOT_TOKEN      = os.environ.get(8620022864:AAHdfX5CwDGU0ZfJf90lC8USaoJ3B1vvgFc)
-ELEVENLABS_KEY = os.environ.get(sk_e8fced5f17e20628f78be9f60d2e70a1ae0e54a38f3acef5)
+BOT_TOKEN      = os.environ.get("BOT_TOKEN")
+ELEVENLABS_KEY = os.environ.get("ELEVENLABS_KEY")
 ADMIN_ID       = int(os.environ.get("ADMIN_ID", "0"))
 
 # ══════════════════════════════════════════════
@@ -24,7 +26,7 @@ ADMIN_ID       = int(os.environ.get("ADMIN_ID", "0"))
 # ══════════════════════════════════════════════
 
 # Option A → Aisha  (warm, natural Indian girl)
-VOICE_ID = mg9npuuaf8WJphS6E0Rt
+VOICE_ID = "mg9npuuaf8WJphS6E0Rt"
 
 # Option B → Simran (young, friendly, Hindi)
 # VOICE_ID = TRnaQb7q41oL7sV0w6Bu
@@ -386,6 +388,25 @@ async def handle_text(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     finally:
         cleanup(voice_path)
 
+
+# ══════════════════════════════════════════════
+#  HEALTH CHECK SERVER (platform probe)
+# ══════════════════════════════════════════════
+class _HealthHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b'OK')
+    def log_message(self, *args):
+        pass  # silent
+
+def start_health_server(port: int = 8000):
+    srv = HTTPServer(('0.0.0.0', port), _HealthHandler)
+    t = threading.Thread(target=srv.serve_forever, daemon=True)
+    t.start()
+    log.info(f'Health server running on port {port}')
+
+
 # ══════════════════════════════════════════════
 #  MAIN — BOT START
 # ══════════════════════════════════════════════
@@ -411,6 +432,7 @@ def main():
     app.add_handler(MessageHandler(filters.VOICE,                    handle_voice))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND,  handle_text))
 
+    start_health_server(int(os.environ.get("PORT", "8000")))
     log.info("🚀 Bot chal raha hai — 24/7!")
     app.run_polling(
         drop_pending_updates=True,
